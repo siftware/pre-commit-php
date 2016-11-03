@@ -59,11 +59,8 @@ do
         php_errors_found=true
     elif [ $RETURN -eq 2 ]; then
         # Return 2 means it ran successfully, but found issues.
-        # Using perl regex to clean up PHPMD output, trimming out full file
-        # paths that are included in each line
         error_message+="  - ${txtylw}${path}${txtrst}"
-        error_message+="$(echo $OUTPUT | perl -pe "s/(\/.*?${path}:)/\n    line /gm")"
-        error_message+="\n\n"
+        error_message+="$OUTPUT\n\n"
         php_errors_found=true
     fi
 done;
