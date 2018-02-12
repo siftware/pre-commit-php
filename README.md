@@ -6,17 +6,18 @@ Forked from the awesome git user @craig-davis. The master branch needs to be cal
 Just add to your `.pre-commit-config.yaml` file with the following
 
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-lint
-  - id: php-unit
-  - id: php-cs
-    files: \.(php)$
-    args: [--standard=PSR1 -p]
-  - id: php-cbf
-    files: \.(php)$
-    args: [--standard=PSR1 -p]
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-lint
+    - id: php-unit
+    - id: php-cs
+      files: \.(php)$
+      args: [--standard=PSR1 -p]
+    - id: php-cbf
+      files: \.(php)$
+      args: [--standard=PSR1 -p]
 ```
 
 # Supported Hooks
@@ -24,10 +25,11 @@ Just add to your `.pre-commit-config.yaml` file with the following
 ## php-lint
 
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-lint
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-lint
 ```
 
 A bash script that runs `php -l` against stage files that are php. Assumes `php` is a global executable command. Will exit when it hits the first syntax error.
@@ -35,10 +37,11 @@ A bash script that runs `php -l` against stage files that are php. Assumes `php`
 ## php-lint-all
 
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-lint-all
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-lint-all
 ```
 
 A systems hook that just runs `php -l` against stage files that have the `.php` extension. Add the `args: [-s first]` in your `.pre-commit-config.yaml` to enable it to exit on the first error found.
@@ -47,10 +50,11 @@ A systems hook that just runs `php -l` against stage files that have the `.php` 
 
 
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-unit
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-unit
 ```
 
 A bash script that will run the appropriate phpunit executable. It will assume
@@ -62,12 +66,13 @@ Note in its current state, it will run the whole PHPUnit test as along as `.php`
 ## php-cs
 
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-cs
-    files: \.(php)$
-    args: [--standard=PSR1 -p]
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-cs
+      files: \.(php)$
+      args: [--standard=PSR1 -p]
 ```
 
 Similar pattern as the php-unit hook. A bash script that will run the appropriate [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) executable.
@@ -81,12 +86,13 @@ If you have multiple standards or a comma in your `args` property, escape the co
 ## php-cbf
 
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-cs
-    files: \.(php)$
-    args: [--standard=PSR1 -p]
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-cs
+      files: \.(php)$
+      args: [--standard=PSR1 -p]
 ```
 Similar pattern as the php-cs hook. A bash script that will run the appropriate [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) executable and will try to fix errors if it can using phpcbf.
 
@@ -97,24 +103,26 @@ The `args` property in your hook declaration can be used for pass any valid PHP 
 If you have multiple standards or a comma in your `args` property, escape the comma character like so
 
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-cs
-    files: \.(php)$
-    args: ["--standard=PSR1/,path/to/ruleset.xml", "-p"]
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-cs
+      files: \.(php)$
+      args: ["--standard=PSR1/,path/to/ruleset.xml", "-p"]
 ```
 
 To install PHP Codesniffer (phpcs & phpcbf), follow the [recommended steps here](https://github.com/squizlabs/PHP_CodeSniffer#installation).
 
 ## php-cs-fixer
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-cs-fixer
-    files: \.(php)$
-    args: [--level=PSR2]
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-cs-fixer
+      files: \.(php)$
+      args: [--level=PSR2]
 ```
 Similar pattern as the php-cs hook. A bash script that will run the appropriate [PHP Coding Standards Fixer](http://cs.sensiolabs.org/) executable and to fix errors according to the configuration. It accepts all of the args from the `php-cs-fixer` command, in particular the `--level`, `--config`, and `--config-file` options.
 
@@ -122,12 +130,13 @@ The tool will fail a build when it has made changes to the staged files. This al
 
 ## php-md
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-md
-    files: \.(php)$
-    args: ["codesize,controversial,design,naming,unusedcode"]
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-md
+      files: \.(php)$
+      args: ["codesize,controversial,design,naming,unusedcode"]
 ```
 A bash script that will run the appropriate [PHP Mess Detector](http://phpmd.org/) executable and report issues as configured.
 
@@ -135,12 +144,13 @@ The tool will fail a build when it has found issues that violate the configured 
 
 ## php-cpd
 ```yaml
-- repo: git@github.com:TarasZakus/pre-commit-php.git
-  sha: 1.1.0
-  hooks:
-  - id: php-cpd
-    files: \.(php)$
-    args: ["--min-tokens=10"]
+repos:
+  - repo: git@github.com:TarasZakus/pre-commit-php.git
+    sha: 1.1.0
+    hooks:
+    - id: php-cpd
+      files: \.(php)$
+      args: ["--min-tokens=10"]
 ```
 A bash script that will run the appropriate [PHP Copy Paste Detector](https://github.com/sebastianbergmann/phpcpd) executable and report on duplicate code.
 
