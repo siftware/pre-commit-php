@@ -6,6 +6,14 @@
   files: \.php$
   args: [-s all]
 
+- id: php-lint-vagrant
+  name: PHP Syntax Check (Vagrant)
+  description: Check PHP Syntax on ALL PHP staged files with user friendly messages and colors
+  entry: pre_commit_hooks/php-lint-vagrant.sh
+  language: script
+  files: \.php$
+  args: [-s all]
+
 - id: php-lint
   name: PHP Syntax Check (Quick)
   description: Runs php -l on all staged files. Exits when it hits the first errored file
