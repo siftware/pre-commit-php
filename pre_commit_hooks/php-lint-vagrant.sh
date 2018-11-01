@@ -9,18 +9,16 @@
 # - php
 #
 # Arguments
-# -s : When to stop checking for errors
-#      all   : Default. Will check ALL given files until there isn't anymore
-#      first : Will stop checking when it encounters the first file that has an error
+# -p : Path to the PHP files in the vagrant box
+#      Include a trailing slash in the path
 #
 #      Example
-#      -s first
-#      -s all
+#      -p /var/www/html/
+#      -p /vagrant/src/
 
 # Check Flags - denotes if we should check all files or stop at the first error file
 check_args_flag_all='all'
 check_args_flag_first='first'
-check_all=true
 
 # Optional path to prepend
 basepath=''
@@ -37,19 +35,9 @@ arg_lookup_start=1
 php_errors_found=false
 
 # Figure out if options were passed
-while getopts ":s:p:" optname
+while getopts ":p:" optname
   do
     case "$optname" in
-      "s")
-        ((arg_lookup_start++))
-        if [ $OPTARG == $check_args_flag_first ]; then
-            check_all=false
-        elif [ $OPTARG == $check_args_flag_all ]; then
-            check_all=true
-        else
-            check_all=true
-        fi
-        ;;
       "p")
         ((arg_lookup_start++))
         basepath=$OPTARG
@@ -58,20 +46,15 @@ while getopts ":s:p:" optname
   done
 
 # Loop through the list of paths to run php lint against
-echo -en "${msg_color_yellow}Begin PHP Linter ...${msg_color_none} \n"
+echo -en "${msg_color_yellow}Running PHP Linter ...${msg_color_none} \n"
 
 parse_error_count=0
 for path in ${*:$arg_lookup_start}
 do
-    vagrant ssh -c "php -l '${basepath}${path}' 1> /dev/null"
-    if [ $? -ne 0 ]; then
-#        echo "PHP Parse errors were detected" >&2
+    OUTPUT=$(vagrant ssh -c "php -l ${basepath}${path}")
+    if echo "${OUTPUT}" | grep -qv "No syntax errors detected"; then
         parse_error_count=$[$parse_error_count +1]
         php_errors_found=true
-        if [ "$check_all" = false ]; then
-            echo "Stopping at the first file with PHP Parse errors"
-            exit 1
-        fi
     fi
 done;
 
@@ -80,4 +63,5 @@ if [ "$php_errors_found" = true ]; then
     exit 1
 fi
 
+echo -en "${msg_color_yellow}No PHP syntax errors found${msg_color_none} \n"
 exit 0
